@@ -148,28 +148,8 @@
                         <a href="/add" class="btn btn-primary"><i class="fa-solid fa-square-plus"></i> ADD</a>
                     </div>
                     <div class="col-md-10">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item page-item<%= page == 1 ? ' disabled' : '' %>">
-                                    <a class="page-link" href=" <%= url.replace(`page=${page}`,`page=${page - 1}`) %>"
-                                        aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <% for(let i=1; i <=pages; i++){ %>
-                                    <li class="page-item<%= page == i ? ' active' : '' %>"><a class="page-link"
-                                            href="  <%= url.replace(`page=${page}`,`page=${i}`) %>">
-                                            <%= i %>
-                                        </a></li>
-                                    <% } %>
-                                        <li class="page-item page-item<%= page == pages ? ' disabled' : '' %>">
-                                            <a class="page-link"
-                                                href=" <%= url.replace(`page=${page}`,`page=${page + 1}`) %>"
-                                                aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                            </ul>
+                        <nav aria-label="Page navigation" id="pagination">
+                            
                         </nav>
                     </div>
                 </div>
@@ -178,50 +158,59 @@
     </div>
     <script>
         let idEdit = null;
-
+        let params = {
+            display: 3,
+            page: 1
+        }
         const readData = () => {
-            fetch('http://localhost:3000/users').then((response) => 
-            response.json()).then((data) => {
-                    // console.log('data', data)
+            fetch(`http://localhost:3000/users?`).then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            }).then((response) => {
+                params = { ...params, totalPages: response.totalPages }
+                console.log('dalam', params)
+                console.log(params.page)
+                let html = ''
+                let offset = (parseInt(params.page) - 1) * params.display 
+                fetch(`http://localhost:3000/users?${new URLSearchParams(params).toString()}`).then((response) => {
+                    if(!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`)
+                    }
+                    return response.json()
+                }).then((response) => {
+                    params = { ...params, totalPages: response.totalPages}
+                    console.log('dalam', params)
                     let html = ''
-                    data.forEach((item, index) => {
+                    let offset = (parseInt(params.page) - 1) * params.display
+                    response.data.forEach((item, index) => {
                         html += `
                         <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.string}</td>
+                            <td>${item.integer}</td>
+                            <td>${item.float}</td>
+                            <td>${item.date}</td>
+                            <td>${item.boolean}</td>
                             <td>
-                                ${index + 1}
-                            </td>
-                            <td>
-                                ${item.string}
-                            </td>
-                            <td>
-                                ${item.integer}
-                            </td>
-                            <td>
-                                ${item.float}
-                            </td>
-                            <td>
-                                ${item.date}
-                            </td>
-                            <td>
-                                ${item.boolean}
-                            </td>
-                            <td>
-                                <div class="d-grid gap-2 d-md-block">
-                                    <a class="btn btn-success"><i
-                                            class="fa-solid fa-pencil" title="Edit" onclick='editData(${JSON.stringify(item)})'></i></a>
-                                    <a class="btn btn-danger" href="delete_methode_link"
-                                        onclick="return confirm('Are you sure you want to delete?');"> <i
-                                            class="fa-solid fa-trash-can" title="Delete" onclick="removeData('${item._id}' )"></i>
-                                    </a>
-                                </div>
+                             <div class="d-grid gap-2 d-md-block">
+                                <a class="btn btn-success">
+                                <i class="fa-solid fa-pencil" title="Edit" onclick='editData(${JSON.stringify(item)})'></i></a>
+                                <a class="btn btn-danger" href="delete_methode_link" onclick="return confirm('Are you sure you want to delete?');">
+                                <i class="fa-solid fa-trash-can" title="Delete" onclick="removeData('${item._id}' )"></i></a>
+                             </div>
                             </td>
                         </tr>
                         `
                     })
                     document.getElementById('body-users').innerHTML = html
-                });
+                    pagination()
+                })
+            });
 
         }
+        consolo.log(params)
 
         const saveData = (e) => {
             e.preventDefault()
@@ -233,7 +222,7 @@
             console.log(string, integer, float, date, boolean)
             
             if(idEdit == null) {
-            fetch('http://localhost:3000/users', {
+            fetch('http://localhost:3000/users?', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -285,7 +274,33 @@
             document.getElementById('date').value = "user.date"
             document.getElementById('boolean').value = "user.booolean"
         }
-
+        const pagination = () => {
+            let pagination =`
+            <ul class="pagination">
+                <li class="page-item page-item${params.page == 1 ? ' disabled' : '' }">    
+                    <a class="page-link" id="pages" href="javascripts:void(0)" onclick="changePage(${parseInt(params.page)- 1})"aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>`
+                 for(let i=1; i <=pages; i++){ 
+                pagination += `
+                <li class="page-item${i == params.page ? ' active' : '' }"><a class="page-link" id="pages" href="javascript:void(0)" id="numb" onclick="changePage(${i})">${i}</a></li>`
+                }
+                pagination += `
+                <li class="page-item${params.page == params.totalPages ? ' disabled' : ''}">
+                    <a class="page-link" id="pages" href="javascripts:void(0)" onclick="changePage(${parseInt(params.page) + 1})"aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>`
+            document.getElementById('pagination').innerHTML = pagination
+        }
+        function changePage(page) {
+            params = { ...paramns, page }
+            console.log(params)
+            readData()
+            return false
+        }
         readData()
     </script>
 </body>
