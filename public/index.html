@@ -147,7 +147,7 @@
                     <div class="col-md-2">
                         <a href="/add" class="btn btn-primary"><i class="fa-solid fa-square-plus"></i> ADD</a>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-10" >
                         <nav aria-label="Page navigation" id="pagination">
                             
                         </nav>
@@ -157,34 +157,23 @@
         </div>
     </div>
     <script>
-        let idEdit = null;
-        let params = {
-            display: 3,
-            page: 1
-        }
-        const readData = () => {
-            fetch(`http://localhost:3000/users?`).then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            }).then((response) => {
-                params = { ...params, totalPages: response.totalPages }
-                console.log('dalam', params)
-                console.log(params.page)
-                let html = ''
-                let offset = (parseInt(params.page) - 1) * params.display 
-                fetch(`http://localhost:3000/users?${new URLSearchParams(params).toString()}`).then((response) => {
-                    if(!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`)
-                    }
-                    return response.json()
-                }).then((response) => {
-                    params = { ...params, totalPages: response.totalPages}
-                    console.log('dalam', params)
+     let idEdit = null;
+     let pageSize = 7
+     let cuurentPage = 1
+     var data = []
+
+
+        const readData = (params) => {
+            fetch(`http://localhost:3000/users?${new URLSearchParams(params).toString()}`).then((response) => 
+            response.json()).then((data) => {
+             
                     let html = ''
-                    let offset = (parseInt(params.page) - 1) * params.display
-                    response.data.forEach((item, index) => {
+                    data.filter((row, index) => {
+                        let start = (currentPage - 1) * pageSize
+                        let end = currentPage * pageSize
+                        if (index >= start && index < end) return true
+                    })
+                   .forEach((item, index) => {
                         html += `
                         <tr>
                             <td>${index + 1}</td>
@@ -205,12 +194,25 @@
                         `
                     })
                     document.getElementById('body-users').innerHTML = html
-                    pagination()
-                })
-            });
+                    
+                    function previousPage() {
+                        if (currentPage > 1)
+                        currentPage--
+                        readData()
+                    }
+                    function nextPage() {
+                        if ((currentPage * pageSize) < data.length)
+                            currentPage++
+                            readData()
+                    }
 
-        }
-        consolo.log(params)
+                    document.querySelector('#prevButton').addEventListener('click', previousPage, false)
+                    document.querySelector('#nextButton').addEventListener('click', nextPage, false)
+                    
+                })
+            };
+
+        
 
         const saveData = (e) => {
             e.preventDefault()
@@ -222,7 +224,7 @@
             console.log(string, integer, float, date, boolean)
             
             if(idEdit == null) {
-            fetch('http://localhost:3000/users?', {
+            fetch('http://localhost:3000/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -274,33 +276,7 @@
             document.getElementById('date').value = "user.date"
             document.getElementById('boolean').value = "user.booolean"
         }
-        const pagination = () => {
-            let pagination =`
-            <ul class="pagination">
-                <li class="page-item page-item${params.page == 1 ? ' disabled' : '' }">    
-                    <a class="page-link" id="pages" href="javascripts:void(0)" onclick="changePage(${parseInt(params.page)- 1})"aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>`
-                 for(let i=1; i <=pages; i++){ 
-                pagination += `
-                <li class="page-item${i == params.page ? ' active' : '' }"><a class="page-link" id="pages" href="javascript:void(0)" id="numb" onclick="changePage(${i})">${i}</a></li>`
-                }
-                pagination += `
-                <li class="page-item${params.page == params.totalPages ? ' disabled' : ''}">
-                    <a class="page-link" id="pages" href="javascripts:void(0)" onclick="changePage(${parseInt(params.page) + 1})"aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>`
-            document.getElementById('pagination').innerHTML = pagination
-        }
-        function changePage(page) {
-            params = { ...paramns, page }
-            console.log(params)
-            readData()
-            return false
-        }
+       
         readData()
     </script>
 </body>
