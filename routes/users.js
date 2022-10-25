@@ -54,7 +54,7 @@ module.exports = function (db) {
       const limitation = limit == 'all' ? {} : { limit: parseInt(limit), skip: offset }
       
       const breads = await collection.find(wheres, limitation).toArray()
-      console.log('whereas',wheres)
+      console.log('wheres',wheres)
 
       res.status(200).json({
         data: breads,
@@ -70,7 +70,7 @@ module.exports = function (db) {
   //CREATE
   router.post('/', async function (req, res, next) {
     try {                                              //string: req.body.string, integer: parseInt(req.body.integer), float: JSON.parse(req.body.float), date: new Date(req.body.date), boolean: req.body.boolean
-      const insertResult = await collection.insertOne({ string: `${req.body.string}`, integer: parseInt(req.body.integer), float: JSON.parse(req.body.float), data: new Date(`${req.body.date}`), boolean: req.body.boolean });
+      const insertResult = await collection.insertOne({ string: req.body.string, integer: parseInt(req.body.integer), float: JSON.parse(req.body.float), date: new Date(req.body.date), boolean: req.body.boolean });
       res.status(201).json(insertResult)
     } catch (e) {
       res.json(e)
@@ -79,7 +79,7 @@ module.exports = function (db) {
   //EDIT
   router.put('/:id', async function (req, res, next) {
     try {
-      const updateResult = await collection.updateOne({ _id: ObjectId(req.params.id) }, { $set: { string: `${req.body.string}`, integer: parseInt(req.body.integer), float: JSON.parse(req.body.float), data: new Date(`${req.body.date}`), boolean: req.body.boolean } });
+      const updateResult = await collection.updateOne({ _id: ObjectId(req.params.id) }, { $set: { string: req.body.string, integer: parseInt(req.body.integer), float: JSON.parse(req.body.float), date: new Date(req.body.date), boolean: req.body.boolean } });
       res.status(201).json(updateResult)
     } catch (e) {
       res.json(e)

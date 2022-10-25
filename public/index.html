@@ -5,173 +5,212 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/stylesheets/style.css" rel="stylesheet">
+  <link href="../stylesheets/style.css" rel="stylesheet">
   <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
   <link href="/fontawesome/css/all.css" rel="stylesheet">
   <title>PostgreSQL-BREAD</title>
 </head>
 
-<body>
-  <div class="container mt-3">
-    <div class="card border-dark">
-      <div class="card-header text-center">
+<body class="body">
+  <div class="container  ">
+    <div class="card h">
+      <div class="h " style="height: 100px;">
+       
+        <div class=" text-center " >
         <h1>
-          BREADS(Browse, Read, Edit, Add, Delete, Sort)
+          BREADS
         </h1>
-     </div>
-      <div class="card-body">
-        <form onsubmit="return saveData(event)">
-
         
-
-          <div class="row mb-3">
-            <label for="string" class="form-check-label ">String</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" name="string" placeholder="String">
-            </div>
-          </div>
-
-          <div class="row mb-3">
-          
-        
-            <label for="integer" class="form-check-label ">Integer</label>
-            <div class="col-sm-10">
-              <input type="number" class="form-control" name="integer" placeholder="Integer"
-                value="<%= query.integer %>">
-            </div>
-          </div>
-
-          <div class="row mb-3">
-      
-            <label for="float" class="form-check-label ">Float</label>
-            <div class="col-sm-10">
-              <input type="number" class="form-control" name="float" placeholder="Float" step="0.005"
-                value="<%= query.float %>">
-            </div>
-          </div>
-
-          <div class="row mb-3">
-      
-            <label for="date" class="form-check-label ">Date</label>
-            <div class="col-sm-3">
-              <input type="date" class="form-control" name="startDate" placeholder="Date" value="<%=query.startDate%>">
-              <label class=" col-form-label">to</label>
-              <input type="date" class="form-control" name="endDate" placeholder="Date" value="<%= query.endDate %>">
-            </div>
-          </div>
-
-          <div class="row mb-3">
-    
-            <label for="boolean" class="form-check-label ">boolean</label>
-            <div class="col-sm-10">
-              <select id="boolean" name="boolean" class="form-select">
-                <option value="" selected disabled>Choose Boolean ... </option>
-                <option value=True <%=query.boolean=="True" ? ' selected ' : '' %>True</option>
-                <option value=False <%=query.boolean=="False" ? ' selected ' : '' %>False</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
-          </form>
-          <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-primary " type="submit"><i class="fa-solid fa-magnifying-glass"
-                title="Search"></i></button>
-            <button class="btn btn-warning" type="submit" href="/"><i class="fa-sharp fa-solid fa-rotate-left"
-                title="Reset"></i></button>
-          </div>
-        
-        <br>
+        <h2>
+          (Browse, Read, Edit, Add, Delete, Sort)
+        </h2>
       </div>
+      </div>
+      
+      <div class="card-body b">
+        <table class="table table-striped">
+          <tr class="c">
+            <th class="c">
+              <div class="card-header text-center c">
+                <h2>ADD / EDIT Data</h2>
+              </div>
+              
+              <div class="card-body b">
+                <div >
+                  <form onsubmit="return saveData(event)">
+                    
+                    <div class="row mb-3">
+                      <label for="string" class="col-sm-2 col-form-check-label ">String</label>
+                      <div class="col-sm-10">
+                        <input type="text" id="string" class="form-control" name="string" placeholder="String">
+                      </div>
+                    </div>
 
-      <table class="table table-striped card-body">
-        <thead class="thead">
-          <tr>
+                    <div class="row mb-3">
+
+
+                      <label for="integer" class="col-sm-2 col-form-check-label ">Integer</label>
+                      <div class="col-sm-10">
+                        <input type="number" id="integer" class="form-control" name="integer" placeholder="Integer">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+
+                      <label for="float" class="col-sm-2 col-form-check-label ">Float</label>
+                      <div class="col-sm-10">
+                        <input type="number" id="float" class="form-control" name="float" placeholder="Float"
+                          step="0.005">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+
+                      <label for="date" class="col-sm-2 col-form-check-label ">Date</label>
+                      <div class="col-sm-4">
+                        <input type="date" id="date" class="form-control" name="date" placeholder="Date">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+
+                      <label for="boolean" class="col-sm-2 col-form-check-label ">boolean</label>
+                      <div class="col-sm-10">
+                        <select id="boolean" name="boolean" class="form-select">
+                          <option value="" selected disabled>Choose Boolean ... </option>
+                          <option value=True>True</option>
+                          <option value=False>False</option>
+                        </select>
+                      </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    
+                </div>
+                <div class="card-footer ">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+               <br>
+                </form>
+              </div>
+            </th>
             <th>
-              No
+              <div class="d-flex b" style="height: 500px;">
+                <div class="vr"></div>
+              </div>
+            </th>
+            <th>
+              <div class="card-header text-center c">
+                <h2>
+                  SEARCH
+                </h2>
+              </div>
+              <div class="card-body b">
+                <form id="form-search">
+                  <div class="row mb-3">
+                    <label for="searchString" class="col-sm-2 col-form-check-label ">String</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="searchString" name="searchString"
+                        placeholder="String">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+
+
+                    <label for="searchInteger" class="col-sm-2 col-form-check-label ">Integer</label>
+                    <div class="col-sm-10">
+                      <input type="number" class="form-control" id="searchInteger" name="searchInteger"
+                        placeholder="Integer" value="<%= query.integer %>">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+
+                    <label for="searchFloat" class="col-sm-2 col-form-check-label ">Float</label>
+                    <div class="col-sm-10">
+                      <input type="number" class="form-control" id="searchFloat" name="searchFloat" placeholder="Float"
+                        step="0.005" value="<%= query.float %>">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+
+                    <label for="date" class="col-sm-2 col-form-check-label ">Date</label>
+                    <div class="col-sm-4">
+                      <input type="date" class="form-control" name="startDate" placeholder="Date">
+                      <label class=" col-form-label">to</label>
+                      <input type="date" class="form-control" name="endDate" placeholder="Date">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+
+                    <label for="boolean" class="col-sm-2 col-form-check-label ">boolean</label>
+                    <div class="col-sm-10">
+                      <select id="boolean" name="boolean" class="form-select">
+                        <option value="" selected disabled>Choose Boolean ... </option>
+                        <option value=True>True</option>
+                        <option value=False>False</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="d-grid gap-2 d-md-block card-footer">
+                    <button class="btn btn-primary " type="submit"><i class="fa-solid fa-magnifying-glass"
+                        title="Search"></i></button>
+                    <button class="btn btn-warning" type="submit" href="/"><i class="fa-sharp fa-solid fa-rotate-left"
+                        title="Reset"></i></button>
+                  </div>
+
+                  <br>
+                </form>
+              </div>
             </th>
 
-            <th>
-              <a
-                href="<%=url.replace(`sortBy=${sortBy}`, `sortBy=string`).replace(`orderBy=${orderBy}`,`orderBy=${orderBy == 'asc' ? 'desc' : 'asc'}`) %>"><i
-                  class="fa-solid fa-<%= sortBy == 'string' ? orderBy == 'asc' ? 'arrow-up-a-z' : 'arrow-down-z-a' : 'sort' %>"></i>
-                string</a>
-
-            </th>
-
-            <th>
-              <a
-                href="<%=url.replace(`sortBy=${sortBy}`, `sortBy=integer`).replace(`orderBy=${orderBy}`,`orderBy=${orderBy == 'asc' ? 'desc' : 'asc'}`) %>"><i
-                  class="fa-solid fa-<%= sortBy == 'integer' ? orderBy == 'asc' ? 'arrow-up-1-9' : 'arrow-down-9-1' : 'sort' %>"></i>
-                integer</a>
-            </th>
-
-            <th>
-              <a
-                href="<%=url.replace(`sortBy=${sortBy}`, `sortBy=float`).replace(`orderBy=${orderBy}`,`orderBy=${orderBy == 'asc' ? 'desc' : 'asc'}`) %>"><i
-                  class="fa-solid fa-<%= sortBy == 'float' ? orderBy == 'asc' ? 'arrow-up-1-9' : 'arrow-down-9-1' : 'sort' %>"></i>
-                float</a>
-            </th>
-
-            <th>
-              <a
-                href="<%=url.replace(`sortBy=${sortBy}`, `sortBy=date`).replace(`orderBy=${orderBy}`,`orderBy=${orderBy == 'asc' ? 'desc' : 'asc'}`) %>"><i
-                  class="fa-solid fa-<%= sortBy == 'date' ? orderBy == 'asc' ? 'arrow-up-short-wide' : 'arrow-down-wide-short' : 'sort' %>"></i>
-                date</a>
-            </th>
-
-            <th>
-              <a
-                href="<%=url.replace(`sortBy=${sortBy}`, `sortBy=boolean`).replace(`orderBy=${orderBy}`,`orderBy=${orderBy == 'asc' ? 'desc' : 'asc'}`) %>"><i
-                  class="fa-solid fa-<%= sortBy == 'boolean' ? orderBy == 'asc' ? 'xmark' : 'check' : 'sort' %>"></i>
-                boolean</a>
-            </th>
-
-            <th>Actions</th>
           </tr>
-        </thead>
+        </table>
+        <div class="card-header text-center border ">
+          <h3><strong>RESULT</strong></h3>
+        </div>
+        <table class="table table-striped card-body">
+          <thead class="thead">
+            <tr>
+              <th>No</th>
+              <th>string</th>
+              <th>integer</th>
+              <th>float</th>
+              <th>date</th>
+              <th>boolean</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="body-users">
+          </tbody>
+        </table>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-md-10">
+              <nav aria-label="Page navigation example" id="pagination">
 
-        <tbody id="body-users">
-
-        </tbody>
-      </table>
-      <div class="card-footer">
-        <div class="row">
-          <div class="col-md-2">
-            <a href="/add" class="btn btn-primary"><i class="fa-solid fa-square-plus"></i> ADD</a>
-          </div>
-          <div class="col-md-10">
-            <nav aria-label="Page navigation example" id="pagination">
-
-            </nav>
+              </nav>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <script>
-    let idEdit = null;
-    let params = {
-      display: 3,
-      page: 1
-    }
-
-    const readData = () => {
-      fetch(`http://localhost:3000/users?`).then((response) => {
-        if (!response.ok) {
-          throw new Erorr(`HTTP error! status: ${response.status}`)
-        }
-        return response.json()
-      }).then((response) => {
-        params = { ...params, totalPages: response.totalPages }
-        console.log('dalam', params)
-        let html = ''
-        let offset = (parseInt(params.page) - 1) * params.display
-        fetch(`http://localhost:3000/users?${new URLSearchParams(params).toString()}`).then((response) => {
+    <script>
+      let idEdit = null;
+      let params = {
+        display: 3,
+        page: 1
+      }
+      let link = new URLSearchParams(params).toString()
+      const readData = () => {
+        fetch(`http://localhost:3000/users?`).then((response) => {
           if (!response.ok) {
-            throw new Erorr(`HTTP error! status ${response.status}`)
+            throw new Erorr(`HTTP error! status: ${response.status}`)
           }
           return response.json()
         }).then((response) => {
@@ -179,34 +218,32 @@
           console.log('dalam', params)
           let html = ''
           let offset = (parseInt(params.page) - 1) * params.display
-          response.data.forEach((item, index) => {
+          fetch(`http://localhost:3000/users?${new URLSearchParams(params).toString()}`).then((response) => {
+            if (!response.ok) {
+              throw new Erorr(`HTTP error! status ${response.status}`)
+            }
+            return response.json()
+          }).then((response) => {
+            params = { ...params, totalPages: response.totalPages }
+            console.log('dalam', params)
+            let html = ''
+            let offset = (parseInt(params.page) - 1) * params.display
+            response.data.forEach((item, index) => {
               html += `
                         <tr>
-                            <td>
-                                ${index + 1}
-                            </td>
-                            <td>
-                                ${item.string}
-                            </td>
-                            <td>
-                                ${item.integer}
-                            </td>
-                            <td>
-                                ${item.float}
-                            </td>
-                            <td>
-                                ${item.date}
-                            </td>
-                            <td>
-                                ${item.boolean}
-                            </td>
+                            <td>${index + 1}</td>
+                            <td>${item.string}</td>
+                            <td>${item.integer}</td>
+                            <td>${item.float}</td>
+                            <td>${item.date}</td>
+                            <td>${item.boolean}</td>
                             <td>
                                 <div class="d-grid gap-2 d-md-block">
                                     <a class="btn btn-success"><i
                                             class="fa-solid fa-pencil" title="Edit" onclick='editData(${JSON.stringify(item)})'></i></a>
-                                    <a class="btn btn-danger" href="delete_methode_link"
+                                    <a class="btn btn-danger" onclick="removeData('${item._id}')"
                                         onclick="return confirm('Are you sure you want to delete?');"> <i
-                                            class="fa-solid fa-trash-can" title="Delete" onclick="removeData('${item._id}' )"></i>
+                                            class="fa-solid fa-trash-can" title="Delete" ></i>
                                     </a>
                                 </div>
                             </td>
@@ -218,9 +255,9 @@
           });
         })
       }
-    console.log(params)
+      console.log(params)
 
-    const saveData = (e) => {
+      const saveData = (e) => {
         e.preventDefault()
         const string = document.getElementById('string').value
         const integer = document.getElementById('integer').value
@@ -267,20 +304,20 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ string, integer, float, date, boolean })
+          
         }).then((response) => response.json()).then((data) => {
           readData()
         })
       }
 
-      const editData = (user) => {
-        //console.log('user', user)
-        idEdit = user._id
-        document.getElementById('string').value = "user.string"
-        document.getElementById('integer').value = "user.integer"
-        document.getElementById('float').value = "user.float"
-        document.getElementById('date').value = "user.date"
-        document.getElementById('boolean').value = "user.booolean"
+      const editData = (breads) => {
+        console.log('user', user)
+        idEdit = breads._id
+        document.getElementById('string').value = "breads.string"
+        document.getElementById('integer').value = "breads.integer"
+        document.getElementById('float').value = "breads.float"
+        document.getElementById('date').value = "breads.date"
+        document.getElementById('boolean').value = "breads.booolean"
       }
 
       const pagination = () => {
@@ -310,102 +347,9 @@
         return false
       }
 
-      document.getElementById('form-search').addEventListener('submit', function (event) {
-        event.preventDefault()
-        const page = 1
-        const string = document.getElementById('searchString').value
-        const integer = document.getElementById('searchInteger').value
-        const float = document.getElementById('searchFloat').value
-        const startDate = document.getElementById('searchStartDate').value
-        const endDate = document.getElementById('searchEndDate').value
-        const boolean = document.getElementById('searchBoolean').value
-        params = { ...params, string, integer, float, startDate, endDate, boolean, page }
-        // let link = new URLSearchParams(params).toString()
-        readData()
-      })
 
-      document.addEventListener('click', function (e) {
-        try {
-          // allows for elements inside TH
-          function findElementRecursive(element, tag) {
-            return element.nodeName === tag ? element : findElementRecursive(element.parentNode, tag)
-          }
-
-          var down_class = ' dir-d '
-          var up_class = ' dir-u '
-          var regex_dir = / dir-(u|d) /
-          var regex_table = /\bsortable\b/
-          var alt_sort = e.shiftKey || e.altKey
-          var element = findElementRecursive(e.target, 'TH')
-          var tr = findElementRecursive(element, 'TR')
-          var table = findElementRecursive(tr, 'TABLE')
-
-          function reClassify(element, dir) {
-            element.className = element.className.replace(regex_dir, '') + dir
-          }
-
-          function getValue(element) {
-            // If you aren't using data-sort and want to make it just the tiniest bit smaller/faster
-            // comment this line and uncomment the next one
-            return (
-              (alt_sort && element.getAttribute('data-sort-alt')) || element.getAttribute('data-sort') || element.innerText
-            )
-            // return element.innerText
-          }
-          if (regex_table.test(table.className)) {
-            var column_index
-            var nodes = tr.cells
-
-            // reset thead cells and get column index
-            for (var i = 0; i < nodes.length; i++) {
-              if (nodes[i] === element) {
-                column_index = element.getAttribute('data-sort-col') || i
-              } else {
-                reClassify(nodes[i], '')
-              }
-            }
-
-            var dir = down_class
-
-            // check if we're sorting up or down, and update the css accordingly
-            if (element.className.indexOf(down_class) !== -1) {
-              dir = up_class
-            }
-
-            reClassify(element, dir)
-
-            // extract all table rows, so the sorting can start.
-            var org_tbody = table.tBodies[0]
-
-            // get the array rows in an array, so we can sort them...
-            var rows = [].slice.call(org_tbody.rows, 0)
-
-            var reverse = dir === up_class
-
-            // sort them using custom built in array sort.
-            rows.sort(function (a, b) {
-              var x = getValue((reverse ? a : b).cells[column_index])
-              var y = getValue((reverse ? b : a).cells[column_index])
-              return isNaN(x - y) ? x.localeCompare(y) : x - y
-            })
-
-            // Make a clone without content
-            var clone_tbody = org_tbody.cloneNode()
-
-            // Build a sorted table body and replace the old one.
-            while (rows.length) {
-              clone_tbody.appendChild(rows.splice(0, 1)[0])
-            }
-
-            // And finally insert the end result
-            table.replaceChild(clone_tbody, org_tbody)
-          }
-        } catch (error) {
-          // console.log(error)
-        }
-      })
       readData()
-  </script>
+    </script>
 </body>
 
 </html>
