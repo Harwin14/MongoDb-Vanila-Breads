@@ -1,0 +1,338 @@
+<html>
+
+<head>
+  <title>Challange 22 - Vanilla</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="/moment.min.js"></script>
+  <link href="/fontawesome/css/all.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="card-header" style="text-align: center;">
+        <h1>BREAD(Browse, Read, Edit, Add, Delete)</h1>
+      </div>
+      <div class="card-body">
+        <h2 style="text-align:center; ">Search Data</h2>
+        <form id="form-filters">
+          <div class="row mb-3">
+            <label for="stringFilters" class="col-sm-2 col-form-label">
+              NAMA</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="stringFilters" name="stringFilters" placeholder="String"
+                value="">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="integerFilters" class="col-sm-2 col-form-label">USIA</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="integerFilters" name="integerFilters" placeholder="integer"
+                value="">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="floatFilters" class="col-sm-2 col-form-label">TINGGI</label>
+            <div class="col-sm-10">
+              <input type="number" step="0.0005" class="form-control" id="floatFilters" name="floatFilters"
+                placeholder="Float">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="startDateFilters" class="col-sm-2 col-form-label">TANGGAL LAHIR</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" name="startDate" id="startDateFilters" placeholder="yyyy/mm/dd">
+              <p style="padding-top:7px;">to</p>
+            </div>
+          </div>
+
+          <div class="row mb-3" style="margin-top: -20px ;">
+            <label for="toDateFilters" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" name="toDate" id="toDateFilters" placeholder="yyyy/mm/dd">
+            </div>
+          </div>
+
+          <fieldset class="row mb-3">
+            <label class="col-form-label col-sm-2 pt-0" for="booleanFilters">SUDAH LULUS</label>
+            <div class="col-sm-10">
+              <select class="form-select" id="booleanFilters" name="booleanFilters">
+                <option value='' selected>Choose...</option>
+                <option value="Sudah">Sudah</option>
+                <option value="Belum">Belum</option>
+              </select>
+          </fieldset>
+          <button type="submit" class="btn btn-primary">Filter</button>
+          <button type="reset" class="btn btn-danger">Reset</button>
+          <button type="button" id="reset-form-search" onclick="readData()" class="btn btn-warning">Reset Table</button>
+        </form>
+      </div>
+    </div>
+    <table class="table table-sortable" id="myTable" style="text-align:center">
+      <thead id="body-head">
+        <tr>
+          <th> <a href="#" class="sort"></a> ID</th>
+          <th>NAMA</th>
+          <th>USIA</th>
+          <th>TINGGI</th>
+          <th>TANGGAL LAHIR</th>
+          <th>LULUS</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody id="body-users">
+
+      </tbody>
+    </table>
+    <div class="card-footer">
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <button class="page-link mx-2" id='prevButton'>Previous</button>
+          </li>
+          <li class="page-item">
+            <button class="page-link mx-2" id='nextButton'>Next</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="card-body">
+      <hr>
+      <h2 style="text-align: center">EDIT DATA</h2>
+
+      <div class="card-body">
+        <form onsubmit="return saveData(event)">
+          <div class="row mb-3">
+            <label for="id" class="col-sm-2 col-form-label">ID</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="id" name="id" placeholder="id" required>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="string" class="col-sm-2 col-form-label">NAMA</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="string" name="string" placeholder="String" required>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="integer" class="col-sm-2 col-form-label">USIA</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="integer" name="integer" placeholder="Integer" required>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="float" class="col-sm-2 col-form-label">TINGGI</label>
+            <div class="col-sm-10">
+              <input type="number" step="0.0005" class="form-control" id="float" name="float" placeholder="Float"
+                required>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="date" class="col-sm-2 col-form-label">TANGGAL LAHIR</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+          </div>
+
+          <fieldset class="row mb-3">
+            <label class="col-form-label col-sm-2 pt-0" for="boolean">LULUS</label>
+            <div class="col-sm-10">
+              <select class="form-select" id="boolean" name="boolean" required>
+                <option selected>Choose...</option>
+                <option value="Sudah">Sudah</option>
+                <option value="Belum">Belum</option>
+              </select>
+          </fieldset>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="reset" class="btn btn-danger">Reset</button>
+      <button type="button" id="reset-form-search" onclick="readData()" class="btn btn-warning">Reset Table</button>
+      </form>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    let idEdit = null;
+    let pageSize = 7
+    let currentPage = 1
+    var data = []
+
+
+    const readData = (params) => {
+      fetch(`http://localhost:3000/users?${new URLSearchParams(params).toString()}`)
+        .then((response) => response.json())
+        .then((data) => {
+          let html = ''
+          data.filter((row, index) => {
+            let start = (currentPage - 1) * pageSize
+            let end = currentPage * pageSize
+            if (index >= start && index < end) return true;
+          })
+            .forEach((item, index) => {
+              html += `
+            <tr>
+              <td>${item.id}</td>
+              <td>${item.string}</td>
+              <td>${item.integer}</td>
+              <td>${item.float}</td>
+              <td>${moment(item.date).format("YYYY MMMM DD")}</td>
+              <td>${item.boolean}</td>
+              <td>
+                <button type="button" class="btn btn-success" onclick='editData(${JSON.stringify(item)})'>Edit</button>
+                <button type="button" class="btn btn-danger" onclick="removeData('${item._id}')">Remove</button>
+              </td>
+            </tr>
+            `
+            })
+
+          document.getElementById('body-users').innerHTML = html
+
+          function previousPage() {
+            if (currentPage > 1)
+              currentPage--;
+            readData()
+          }
+          function nextPage() {
+            if ((currentPage * pageSize) < data.length)
+              currentPage++;
+            readData()
+          }
+
+          document.querySelector('#prevButton').addEventListener('click', previousPage, false)
+          document.querySelector('#nextButton').addEventListener('click', nextPage, false)
+
+        });
+    }
+
+    function sortTableByColumn(table, column, asc = true) {
+      const dirModifier = asc ? 1 : -1;
+      const tBody = table.tBodies[0];
+      const rows = Array.from(tBody.querySelectorAll("tr"));
+
+      // Sort each row
+      const sortedRows = rows.sort((a, b) => {
+        const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+        const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+
+        return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+      });
+
+      // Remove all existing TRs from the table
+      while (tBody.firstChild) {
+        tBody.removeChild(tBody.firstChild);
+      }
+
+      // Re-add the newly sorted rows
+      tBody.append(...sortedRows);
+
+      // Remember how the column is currently sorted
+      table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+      table.querySelector(`th:nth-child(${column + 1})`).classList.toggle("th-sort-asc", asc);
+      table.querySelector(`th:nth-child(${column + 1})`).classList.toggle("th-sort-desc", !asc);
+    }
+
+    document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+      headerCell.addEventListener("click", () => {
+        const tableElement = headerCell.parentElement.parentElement.parentElement;
+        const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+        const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+
+        sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+      });
+    });
+
+    document.getElementById('form-filters').addEventListener('submit', function (event) {
+      event.preventDefault()
+
+      const string = document.getElementById('stringFilters').value
+      const integer = document.getElementById('integerFilters').value
+      const float = document.getElementById('floatFilters').value
+      const toDate = document.getElementById('toDateFilters').value
+      const startDate = document.getElementById('startDateFilters').value
+      const boolean = document.getElementById('booleanFilters').value
+
+      readData({ string, integer, float, toDate, startDate, boolean })
+    })
+
+
+
+
+    const saveData = (e) => {
+      e.preventDefault()
+      document.getElementById('id').value
+      const id = document.getElementById('id').value
+      const string = document.getElementById('string').value
+      const integer = document.getElementById('integer').value
+      const float = document.getElementById('float').value
+      const date = document.getElementById('date').value
+      const boolean = document.getElementById('boolean').value
+
+      if (idEdit == null) {
+        fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id, string, integer, float, date, boolean })
+        }).then((response) => response.json()).then((data) => {
+          readData()
+        })
+      } else {
+        fetch(`http://localhost:3000/users/${idEdit}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id, string, integer, float, date, boolean })
+        }).then((response) => response.json()).then((data) => {
+          readData()
+        })
+        idEdit = null;
+      }
+      document.getElementById('id').value = ''
+      document.getElementById('string').value = ''
+      document.getElementById('integer').value = ''
+      document.getElementById('float').value = ''
+      document.getElementById('date').value = ''
+      document.getElementById('boolean').value = ''
+      return false
+    }
+
+    const removeData = (id) => {
+      fetch(`http://localhost:3000/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((response) => response.json()).then((data) => {
+        readData()
+      })
+    }
+
+    const editData = (user) => {
+      idEdit = user._id
+      document.getElementById('id').value = user.id
+      document.getElementById('string').value = user.string
+      document.getElementById('integer').value = user.integer
+      document.getElementById('float').value = user.float
+      document.getElementById('date').value = new Date(user.date)
+      document.getElementById('boolean').value = user.boolean
+      console.log(user.date)
+      console.log(user.float)
+    }
+
+    readData()
+  </script>
+
+
+</body>
+
+</html>
