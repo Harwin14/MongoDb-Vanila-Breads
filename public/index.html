@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
   <link href="../stylesheets/style.css" rel="stylesheet">
   <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
   <link href="/fontawesome/css/all.css" rel="stylesheet">
@@ -12,7 +13,7 @@
 </head>
 
 <body class="body">
-  <div class="container  ">
+  <div class="container sm ">
     <div class="card h">
       <div class="h " style="height: 100px;">
 
@@ -35,9 +36,9 @@
                 <h2>ADD / EDIT Data</h2>
               </div>
 
-              <div class="card-body b">
+              <div class="card-body c ">
                 <div>
-                  <form onsubmit="return saveData(event)">
+                  <form onsubmit="return saveData(event)" class="form">
 
                     <div class="row mb-3">
                       <label for="string" class="col-sm-2 col-form-check-label ">String</label>
@@ -89,24 +90,20 @@
 
                 </div>
                 <div class="card-footer ">
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="submit" class="btn btn-primary fa-solid fa-file-arrow-down" title="SAVE DATA"> Save</button>
                 </div>
                 <br>
                 </form>
               </div>
             </th>
-            <th>
-              <div class="d-flex b" style="height: 500px;">
-                <div class="vr"></div>
-              </div>
-            </th>
+         
             <th>
               <div class="card-header text-center c">
                 <h2>
                   SEARCH
                 </h2>
               </div>
-              <div class="card-body b">
+              <div class="card-body c">
                 <form id="form-search">
                   <div class="row mb-3">
                     <label for="searchString" class="col-sm-2 col-form-check-label ">String</label>
@@ -122,7 +119,7 @@
                     <label for="searchInteger" class="col-sm-2 col-form-check-label ">Integer</label>
                     <div class="col-sm-10">
                       <input type="number" class="form-control" id="searchInteger" name="searchInteger"
-                        placeholder="Integer" value="<%= query.integer %>">
+                        placeholder="Integer" >
                     </div>
                   </div>
 
@@ -131,25 +128,25 @@
                     <label for="searchFloat" class="col-sm-2 col-form-check-label ">Float</label>
                     <div class="col-sm-10">
                       <input type="number" class="form-control" id="searchFloat" name="searchFloat" placeholder="Float"
-                        step="0.005" value="<%= query.float %>">
+                        step="0.005">
                     </div>
                   </div>
 
                   <div class="row mb-3">
 
-                    <label for="date" class="col-sm-2 col-form-check-label ">Date</label>
+                    <label for="searchDate" class="col-sm-2 col-form-check-label " id="searchDate">Date</label>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" name="startDate" placeholder="Date">
+                      <input type="date" class="form-control" id="searchStartDate" name="searchStartDate" placeholder="Date">
                       <label class=" col-form-label">to</label>
-                      <input type="date" class="form-control" name="endDate" placeholder="Date">
+                      <input type="date" class="form-control" id="searchEndDate" name="searchEndDate" placeholder="Date">
                     </div>
                   </div>
 
                   <div class="row mb-3">
 
-                    <label for="boolean" class="col-sm-2 col-form-check-label ">boolean</label>
+                    <label for="searchBoolean" class="col-sm-2 col-form-check-label ">boolean</label>
                     <div class="col-sm-10">
-                      <select id="boolean" name="boolean" class="form-select">
+                      <select  id="searchBoolean" name="searchBoolean" class="form-select">
                         <option value="" selected disabled>Choose Boolean ... </option>
                         <option value=True>True</option>
                         <option value=False>False</option>
@@ -171,19 +168,19 @@
 
           </tr>
         </table>
-        <div class="card-header text-center border ">
+        <div class="card-header text-center ">
           <h3><strong>RESULT</strong></h3>
         </div>
-        <table class="table table-striped card-body">
+        <table class="sortable table    table-striped card-body ">
           <thead class="thead">
             <tr>
-              <th>No</th>
-              <th>string</th>
-              <th>integer</th>
-              <th>float</th>
-              <th>date</th>
-              <th>boolean</th>
-              <th>Actions</th>
+              <th class="no-sort">No</th>
+              <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>String</th>
+              <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>Integer</th>
+              <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>Float</th>
+              <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>Date</th>
+              <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>Boolean</th>
+              <th class="no-sort">Actions</th>
             </tr>
           </thead>
           <tbody id="body-users">
@@ -235,13 +232,13 @@
                             <td>${item.string}</td>
                             <td>${item.integer}</td>
                             <td>${item.float}</td>
-                            <td>${item.date}</td>
+                            <td>${moment(item.date).format('DD/MMM/YYYY')}</td>
                             <td>${item.boolean}</td>
                             <td>
                                 <div class="d-grid gap-2 d-md-block">
                                     <a class="btn btn-success"><i
                                             class="fa-solid fa-pencil" title="Edit" onclick='editData(${JSON.stringify(item)})''></i></a>
-                                    <a class="btn btn-danger" onclick="removeData('${item._id}')"
+                                    <a class="btn btn-danger" onclick="removeData('${item._id}') "
                                         onclick="return confirm('Are you sure you want to delete?');"> <i
                                             class="fa-solid fa-trash-can" title="Delete" ></i>
                                     </a>
@@ -316,7 +313,7 @@
         document.getElementById('string').value = user.string
         document.getElementById('integer').value = user.integer
         document.getElementById('float').value = user.float
-        document.getElementById('date').value = user.date
+        document.getElementById('date').val(moment(user.date).format('YYYY-MMM-DD'))
         document.getElementById('boolean').value = user.booolean
 
       }
@@ -340,7 +337,7 @@
         </ul>`
         document.getElementById('pagination').innerHTML = pagination
       }
-
+     // console.log(params.page)
       function changePage(page) {
         params = { ...params, page }
         console.log(params)
@@ -348,9 +345,89 @@
         return false
       }
 
+      document.getElementById('form-search').addEventListener('submit', (event) =>{
+        event.preventDefault()
+        const page = 1
+        const string = document.getElementById('searchString').value
+        const integer = document.getElementById('searchInteger').value
+        const float = document.getElementById('searchFloat').value
+        const startDate = document.getElementById('searchStartDate').value
+        const endDate = document.getElementById('searchEndDate').value
+        const boolean = document.getElementById('searchBoolean').value
+        params = { ...params, string, integer, float, startDate, endDate, boolean, page }
+        readData()
+      })
+      document.addEventListener('click', (e) => {
+        try {
+          function findElementRecursive(element, tag) {
+            return element.nodeName === tag ? element : findElementRecursive(element.parentNode, tag)
+          }
+
+          let down_class = ' dir-d '
+          let up_class = ' dir-u '
+          let regex_dir = / dir-(u|d) /
+          let regex_table = /\bsortable\b/
+          let alt_sort = e.shiftKey || e.altKey
+          let element = findElementRecursive(e.target, 'TH')
+          let tr = findElementRecursive(element, 'TR')
+          let table = findElementRecursive(tr, 'TABLE')
+
+          function reClassify(element, dir) {
+            element.className = element.className.replace(regex_dir, '') + dir
+          }
+
+          function getValue(element) {
+            return (
+              (alt_sort && element.getAttribute('data-sort-alt')) || element.getAttribute('data-sort') || element.innerText
+            )
+          }
+          if (regex_table.test(table.className)) {
+            let column_index
+            let nodes = tr.cells
+
+            for (var i = 0; i < nodes.length; i++) {
+              if (nodes[i] === element) {
+                column_index = element.getAttribute('data-sort-col') || i
+              } else {
+                reClassify(nodes[i], '')
+              }
+            }
+            let dir = down_class
+
+            if (element.className.indexOf(down_class) !== -1) {
+              dir = up_class
+
+            }
+            reClassify(element, dir)
+            
+            let org_tbody = table.tBodies[0]
+
+            let rows = [].slice.call(org_tbody.rows, 0)
+
+            let reverse = dir === up_class
+
+            rows.sort(function (a, b ) {
+              let x = getValue((reverse ? a : b).cells[column_index])
+              let y = getValue((reverse ? b : a).cells[column_index])
+              return isNaN(x - y) ? x.localeCompare(y) : x - y
+            })
+
+            let clone_tbody = org_tbody.cloneNode()
+
+            while (rows.length) {
+              clone_tbody.appendChild(rows.splice(0, 1)[0])
+            }
+
+            table.replaceChild(clone_tbody, org_tbody)
+          }
+        } catch (error) {
+
+        }
+      })
 
       readData()
     </script>
 </body>
 
 </html>
+

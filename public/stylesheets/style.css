@@ -27,9 +27,11 @@ a {
   background-color:#DFF6FF;
   border-radius: 6px;
 
+
 }
 .body {
   background-color:#06283D;
+
 }
 .b { 
   border-style: outset;
@@ -37,6 +39,13 @@ a {
 }
 .c {
   border-style: outset;
-  padding: 10px;
+  padding: 0px;
   border-radius: 5px;
+}
+.form {
+  margin-bottom: 13px;
+}
+.th {
+  background-color: black;
+  border-block-start-color: black;
 }

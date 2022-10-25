@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { ObjectId } = require('mongodb')
-
+const moment = require('moment')
 module.exports = function (db) {
   const collection = db.collection('breads');
 
@@ -9,7 +9,7 @@ module.exports = function (db) {
 
     const page = req.query.page || 1
     const limit = 3
-    const wheres = {}
+    const values = {}
     var sortBy = req.query.sortBy == undefined ? 'string' : req.query.sortBy;
     var sortMode = req.query.sortMode == undefined ? 1 : req.query.sortMode;
     var sortMongo = JSON.parse(`{"${sortBy}" : ${sortMode}}`);
@@ -17,44 +17,44 @@ module.exports = function (db) {
     const offset = limit == 'all' ? 0 : (page - 1) * limit
 
     if (req.query.string) {
-     wheres["string"] = new RegExp(`${req.query.string}`, 'i')
+     values["string"] = new RegExp(`${req.query.string}`, 'i')
     }
 
     if (req.query.integer) {
-     wheres["integer"] = parseInt(req.query.integer)
+     values["integer"] = parseInt(req.query.integer)
     }
 
     if (req.query.float) {
-     wheres["float"] = JSON.parse(req.query.float)
+     values["float"] = JSON.parse(req.query.float)
     }
 
 
     if (req.query.startDate && req.query.endDate) {
-     wheres["date"] = {
+     values["date"] = {
         $gte: new Date(`${req.query.startDate}`),
         $lte: new Date(`${req.query.endDate}`)
       }
     } else if (req.query.startDate) {
-     wheres["date"] = { $gte: new Date(`${req.query.startDate}`) }
+     values["date"] = { $gte: new Date(`${req.query.startDate}`) }
     } else if (req.query.endDate) {
-     wheres["date"] = { $lte: new Date(`${req.query.endDate}`) }
+     values["date"] = { $lte: new Date(`${req.query.endDate}`) }
     }
 
 
     if (req.query.boolean) {
-     wheres["boolean"] = (req.query.boolean)
+     values["boolean"] = (req.query.boolean)
     }
 
     try {
 
       const collection = db.collection('breads');
 
-      const totalData = await collection.find(wheres).count();
+      const totalData = await collection.find(values).count();
       const totalPages = limit == 'all' ? 1 : Math.ceil(totalData / limit)
       const limitation = limit == 'all' ? {} : { limit: parseInt(limit), skip: offset }
       
-      const breads = await collection.find(wheres, limitation).toArray()
-      console.log('wheres',wheres)
+      const breads = await collection.find(values, limitation).toArray()
+      console.log('values',values)
 
       res.status(200).json({
         data: breads,

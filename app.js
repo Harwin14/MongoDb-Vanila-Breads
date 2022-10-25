@@ -146,6 +146,8 @@ main().then((db) => {
   console.log('gagal bruh', err)
 })
 
+// sudo kill -9 `sudo lsof -t -i:3000`
+//git push -f origin main
 
-
-
+//(node:52169) [MONGODB DRIVER] Warning: cursor.count is deprecated and will be removed in the next major version, 
+//please use `collection.estimatedDocumentCount` or `collection.countDocuments` instead 
