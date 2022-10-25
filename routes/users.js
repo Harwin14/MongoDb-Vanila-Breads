@@ -8,11 +8,9 @@ module.exports = function (db) {
   router.get('/', async (req, res) => {
 
     const page = req.query.page || 1
-    const limit = 3
+    const limit = 7
     const values = {}
-    var sortBy = req.query.sortBy == undefined ? 'string' : req.query.sortBy;
-    var sortMode = req.query.sortMode == undefined ? 1 : req.query.sortMode;
-    var sortMongo = JSON.parse(`{"${sortBy}" : ${sortMode}}`);
+   
 
     const offset = limit == 'all' ? 0 : (page - 1) * limit
 

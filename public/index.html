@@ -78,7 +78,7 @@
                       <label for="boolean" class="col-sm-2 col-form-check-label ">boolean</label>
                       <div class="col-sm-10">
                         <select id="boolean" name="boolean" class="form-select">
-                          <option value="" selected disabled>Choose Boolean ... </option>
+                          <option value="" selected>Choose Boolean ... </option>
                           <option value=True>True</option>
                           <option value=False>False</option>
                         </select>
@@ -90,13 +90,14 @@
 
                 </div>
                 <div class="card-footer ">
-                  <button type="submit" class="btn btn-primary fa-solid fa-file-arrow-down" title="SAVE DATA"> Save</button>
+                  <button type="submit" class="btn btn-primary fa-solid fa-file-arrow-down" title="SAVE DATA">
+                    Save</button>
                 </div>
                 <br>
                 </form>
               </div>
             </th>
-         
+
             <th>
               <div class="card-header text-center c">
                 <h2>
@@ -119,7 +120,7 @@
                     <label for="searchInteger" class="col-sm-2 col-form-check-label ">Integer</label>
                     <div class="col-sm-10">
                       <input type="number" class="form-control" id="searchInteger" name="searchInteger"
-                        placeholder="Integer" >
+                        placeholder="Integer">
                     </div>
                   </div>
 
@@ -136,9 +137,11 @@
 
                     <label for="searchDate" class="col-sm-2 col-form-check-label " id="searchDate">Date</label>
                     <div class="col-sm-4">
-                      <input type="date" class="form-control" id="searchStartDate" name="searchStartDate" placeholder="Date">
+                      <input type="date" class="form-control" id="searchStartDate" name="searchStartDate"
+                        placeholder="Date">
                       <label class=" col-form-label">to</label>
-                      <input type="date" class="form-control" id="searchEndDate" name="searchEndDate" placeholder="Date">
+                      <input type="date" class="form-control" id="searchEndDate" name="searchEndDate"
+                        placeholder="Date">
                     </div>
                   </div>
 
@@ -146,8 +149,8 @@
 
                     <label for="searchBoolean" class="col-sm-2 col-form-check-label ">boolean</label>
                     <div class="col-sm-10">
-                      <select  id="searchBoolean" name="searchBoolean" class="form-select">
-                        <option value="" selected disabled>Choose Boolean ... </option>
+                      <select id="searchBoolean" name="searchBoolean" class="form-select">
+                        <option value="" selected>Choose Boolean ... </option>
                         <option value=True>True</option>
                         <option value=False>False</option>
                       </select>
@@ -157,8 +160,8 @@
                   <div class="d-grid gap-2 d-md-block card-footer">
                     <button class="btn btn-primary " type="submit"><i class="fa-solid fa-magnifying-glass"
                         title="Search"></i></button>
-                    <button class="btn btn-warning" type="submit" href="/"><i class="fa-sharp fa-solid fa-rotate-left"
-                        title="Reset"></i></button>
+                    <button class="btn btn-warning" type="submit" onclick="readData()"><i
+                        class="fa-sharp fa-solid fa-rotate-left" title="Reset"></i></button>
                   </div>
 
                   <br>
@@ -171,16 +174,16 @@
         <div class="card-header text-center ">
           <h3><strong>RESULT</strong></h3>
         </div>
-        <table class="sortable table    table-striped card-body ">
+        <table class="table table-sortable   table-striped card-body ">
           <thead class="thead">
             <tr>
-              <th class="no-sort">No</th>
+              <th>No</th>
               <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>String</th>
               <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>Integer</th>
               <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>Float</th>
               <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>Date</th>
               <th><i class="fa-solid fa-arrow-up-short-wide"></i></i>Boolean</th>
-              <th class="no-sort">Actions</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="body-users">
@@ -200,7 +203,7 @@
     <script>
       let idEdit = null;
       let params = {
-        display: 3,
+        display: 7,
         page: 1
       }
       let link = new URLSearchParams(params).toString()
@@ -228,7 +231,7 @@
             response.data.forEach((item, index) => {
               html += `
                         <tr>
-                            <td>${index + 1 + offset }</td>
+                            <td>${index + 1 + offset}</td>
                             <td>${item.string}</td>
                             <td>${item.integer}</td>
                             <td>${item.float}</td>
@@ -294,7 +297,7 @@
         document.getElementById('boolean').value = ""
         console.log(string, integer, float, date, boolean)
         return false
-      } 
+      }
       const removeData = (id) => {
         fetch(`http://localhost:3000/users/${id}`, {
           method: 'DELETE',
@@ -337,7 +340,7 @@
         </ul>`
         document.getElementById('pagination').innerHTML = pagination
       }
-     // console.log(params.page)
+      // console.log(params.page)
       function changePage(page) {
         params = { ...params, page }
         console.log(params)
@@ -345,7 +348,7 @@
         return false
       }
 
-      document.getElementById('form-search').addEventListener('submit', (event) =>{
+      document.getElementById('form-search').addEventListener('submit', (event) => {
         event.preventDefault()
         const page = 1
         const string = document.getElementById('searchString').value
@@ -357,77 +360,44 @@
         params = { ...params, string, integer, float, startDate, endDate, boolean, page }
         readData()
       })
-      document.addEventListener('click', (e) => {
-        try {
-          function findElementRecursive(element, tag) {
-            return element.nodeName === tag ? element : findElementRecursive(element.parentNode, tag)
-          }
+      function sortTableByColumn(table, column, asc = true) {
+        const dirModifier = asc ? 1 : -1;
+        const tBody = table.tBodies[0];
+        const rows = Array.from(tBody.querySelectorAll("tr"));
 
-          let down_class = ' dir-d '
-          let up_class = ' dir-u '
-          let regex_dir = / dir-(u|d) /
-          let regex_table = /\bsortable\b/
-          let alt_sort = e.shiftKey || e.altKey
-          let element = findElementRecursive(e.target, 'TH')
-          let tr = findElementRecursive(element, 'TR')
-          let table = findElementRecursive(tr, 'TABLE')
+        // Sort each row
+        const sortedRows = rows.sort((a, b) => {
+        const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+        const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
 
-          function reClassify(element, dir) {
-            element.className = element.className.replace(regex_dir, '') + dir
-          }
+          return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+        });
 
-          function getValue(element) {
-            return (
-              (alt_sort && element.getAttribute('data-sort-alt')) || element.getAttribute('data-sort') || element.innerText
-            )
-          }
-          if (regex_table.test(table.className)) {
-            let column_index
-            let nodes = tr.cells
-
-            for (var i = 0; i < nodes.length; i++) {
-              if (nodes[i] === element) {
-                column_index = element.getAttribute('data-sort-col') || i
-              } else {
-                reClassify(nodes[i], '')
-              }
-            }
-            let dir = down_class
-
-            if (element.className.indexOf(down_class) !== -1) {
-              dir = up_class
-
-            }
-            reClassify(element, dir)
-            
-            let org_tbody = table.tBodies[0]
-
-            let rows = [].slice.call(org_tbody.rows, 0)
-
-            let reverse = dir === up_class
-
-            rows.sort(function (a, b ) {
-              let x = getValue((reverse ? a : b).cells[column_index])
-              let y = getValue((reverse ? b : a).cells[column_index])
-              return isNaN(x - y) ? x.localeCompare(y) : x - y
-            })
-
-            let clone_tbody = org_tbody.cloneNode()
-
-            while (rows.length) {
-              clone_tbody.appendChild(rows.splice(0, 1)[0])
-            }
-
-            table.replaceChild(clone_tbody, org_tbody)
-          }
-        } catch (error) {
-
+        // Remove all existing TRs from the table
+        while (tBody.firstChild) {
+          tBody.removeChild(tBody.firstChild);
         }
-      })
 
+        // Re-add the newly sorted rows
+        tBody.append(...sortedRows);
+
+        // Remember how the column is currently sorted
+        table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+        table.querySelector(`th:nth-child(${column + 1})`).classList.toggle("th-sort-asc", asc);
+        table.querySelector(`th:nth-child(${column + 1})`).classList.toggle("th-sort-desc", !asc);
+      }
+
+      document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+        headerCell.addEventListener("click", () => {
+          const tableElement = headerCell.parentElement.parentElement.parentElement;
+          const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+          const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+
+          sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+        });
+      });
       readData()
     </script>
 </body>
 
 </html>
-
