@@ -15,18 +15,18 @@
   <div class="container  ">
     <div class="card h">
       <div class="h " style="height: 100px;">
-       
-        <div class=" text-center " >
-        <h1>
-          BREADS
-        </h1>
-        
-        <h2>
-          (Browse, Read, Edit, Add, Delete, Sort)
-        </h2>
+
+        <div class=" text-center ">
+          <h1>
+            BREADS
+          </h1>
+
+          <h2>
+            (Browse, Read, Edit, Add, Delete, Sort)
+          </h2>
+        </div>
       </div>
-      </div>
-      
+
       <div class="card-body b">
         <table class="table table-striped">
           <tr class="c">
@@ -34,11 +34,11 @@
               <div class="card-header text-center c">
                 <h2>ADD / EDIT Data</h2>
               </div>
-              
+
               <div class="card-body b">
-                <div >
+                <div>
                   <form onsubmit="return saveData(event)">
-                    
+
                     <div class="row mb-3">
                       <label for="string" class="col-sm-2 col-form-check-label ">String</label>
                       <div class="col-sm-10">
@@ -86,12 +86,12 @@
                     <br>
                     <br>
                     <br>
-                    
+
                 </div>
                 <div class="card-footer ">
                   <button type="submit" class="btn btn-primary">Save</button>
                 </div>
-               <br>
+                <br>
                 </form>
               </div>
             </th>
@@ -231,7 +231,7 @@
             response.data.forEach((item, index) => {
               html += `
                         <tr>
-                            <td>${index + 1}</td>
+                            <td>${index + 1 + offset }</td>
                             <td>${item.string}</td>
                             <td>${item.integer}</td>
                             <td>${item.float}</td>
@@ -240,7 +240,7 @@
                             <td>
                                 <div class="d-grid gap-2 d-md-block">
                                     <a class="btn btn-success"><i
-                                            class="fa-solid fa-pencil" title="Edit" onclick='editData(${JSON.stringify(item)})'></i></a>
+                                            class="fa-solid fa-pencil" title="Edit" onclick='editData(${JSON.stringify(item)})''></i></a>
                                     <a class="btn btn-danger" onclick="removeData('${item._id}')"
                                         onclick="return confirm('Are you sure you want to delete?');"> <i
                                             class="fa-solid fa-trash-can" title="Delete" ></i>
@@ -278,7 +278,7 @@
             readData()
           })
         } else {
-          fetch('http://localhost:3000/users/${idEdit}', {
+          fetch(`http://localhost:3000/users/${idEdit}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
@@ -297,27 +297,28 @@
         document.getElementById('boolean').value = ""
         console.log(string, integer, float, date, boolean)
         return false
-      }
+      } 
       const removeData = (id) => {
         fetch(`http://localhost:3000/users/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
           },
-          
+
         }).then((response) => response.json()).then((data) => {
           readData()
         })
       }
 
-      const editData = (breads) => {
+      const editData = (user) => {
         console.log('user', user)
-        idEdit = breads._id
-        document.getElementById('string').value = "breads.string"
-        document.getElementById('integer').value = "breads.integer"
-        document.getElementById('float').value = "breads.float"
-        document.getElementById('date').value = "breads.date"
-        document.getElementById('boolean').value = "breads.booolean"
+        idEdit = user._id
+        document.getElementById('string').value = user.string
+        document.getElementById('integer').value = user.integer
+        document.getElementById('float').value = user.float
+        document.getElementById('date').value = user.date
+        document.getElementById('boolean').value = user.booolean
+
       }
 
       const pagination = () => {
