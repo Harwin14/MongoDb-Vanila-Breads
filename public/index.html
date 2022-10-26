@@ -69,7 +69,7 @@
 
                       <label for="date" class="col-sm-2 col-form-check-label ">Date</label>
                       <div class="col-sm-4">
-                        <input type="date" id="date" class="form-control" name="date" placeholder="Date">
+                        <input type="date" id="date" class="form-control" name="date" placeholder="Date" value='date' required>
                       </div>
                     </div>
 
@@ -77,10 +77,10 @@
 
                       <label for="boolean" class="col-sm-2 col-form-check-label ">boolean</label>
                       <div class="col-sm-10">
-                        <select id="boolean" name="boolean" class="form-select">
-                          <option value="" selected>Choose Boolean ... </option>
-                          <option value=True>True</option>
-                          <option value=False>False</option>
+                        <select id="boolean" name="boolean" class="form-select" required>
+                          <option value="${item.boolean}" disabled selected  >Choose boolean...</option>
+                          <option value=True ${item.boolean == 'True' ? ' selected' : ''}>True</option>
+                          <option value=False ${user.boolean == 'False' ? ' selected' : ''}>False</option>
                         </select>
                       </div>
                     </div>
@@ -149,8 +149,8 @@
 
                     <label for="searchBoolean" class="col-sm-2 col-form-check-label ">boolean</label>
                     <div class="col-sm-10">
-                      <select id="searchBoolean" name="searchBoolean" class="form-select">
-                        <option value="" selected>Choose Boolean ... </option>
+                      <select id="searchBoolean" name="searchBoolean" class="form-select" required>
+                        <option value="" selected> Choose Boolean ... </option>
                         <option value=True>True</option>
                         <option value=False>False</option>
                       </select>
@@ -159,9 +159,9 @@
 
                   <div class="d-grid gap-2 d-md-block card-footer">
                     <button class="btn btn-primary " type="submit"><i class="fa-solid fa-magnifying-glass"
-                        title="Search"></i></button>
+                        title="Search"> Search</i></button>
                     <button class="btn btn-warning" type="submit" onclick="readData()"><i
-                        class="fa-sharp fa-solid fa-rotate-left" title="Reset"></i></button>
+                        class="fa-sharp fa-solid fa-rotate-left" title="Reset"> Reset </i></button>
                   </div>
 
                   <br>
@@ -193,8 +193,8 @@
           <div class="row">
             <div class="col-md-10">
               <nav aria-label="Page navigation example" id="pagination">
-
               </nav>
+              
             </div>
           </div>
         </div>
@@ -203,7 +203,7 @@
     <script>
       let idEdit = null;
       let params = {
-        display: 7,
+        display: 5,
         page: 1
       }
       let link = new URLSearchParams(params).toString()
@@ -310,14 +310,14 @@
         })
       }
 
-      const editData = (user) => {
-        console.log('user', user)
-        idEdit = user._id
-        document.getElementById('string').value = user.string
-        document.getElementById('integer').value = user.integer
-        document.getElementById('float').value = user.float
-        document.getElementById('date').val(moment(user.date).format('YYYY-MMM-DD'))
-        document.getElementById('boolean').value = user.booolean
+      const editData = (breads) => {
+        
+        idEdit = breads._id
+        document.getElementById('string').value = breads.string
+        document.getElementById('integer').value = breads.integer
+        document.getElementById('float').value = breads.float
+        document.getElementById('date').value = new Date(breads.date)
+        document.getElementById('boolean').value = breads.booolean
 
       }
 
@@ -337,6 +337,7 @@
                   <span aria-hidden="true">&raquo;</span>
               </a>
         </li>
+        
         </ul>`
         document.getElementById('pagination').innerHTML = pagination
       }

@@ -8,7 +8,7 @@ module.exports = function (db) {
   router.get('/', async (req, res) => {
 
     const page = req.query.page || 1
-    const limit = 7
+    const limit = 5
     const values = {}
    
 
@@ -52,7 +52,7 @@ module.exports = function (db) {
       const limitation = limit == 'all' ? {} : { limit: parseInt(limit), skip: offset }
       
       const breads = await collection.find(values, limitation).toArray()
-      console.log('values',values)
+   //   console.log('values',values)
 
       res.status(200).json({
         data: breads,
