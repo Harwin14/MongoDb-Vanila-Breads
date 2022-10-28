@@ -15,7 +15,6 @@ a {
   border-radius: 6px;
 }
 .card-header{
- background-color: #47B5FF;
   margin-top: 0px;
   margin-bottom: 0px;
   padding-top: -40px;
@@ -48,4 +47,13 @@ a {
 .th {
   background-color: black;
   border-block-start-color: black;
+}
+.thead {
+  cursor: pointer;
+  border: #06283D;
+  background-color: #3b90c5;
+  border-radius: 6px;
+}
+.table {
+border: #06283D;
 }

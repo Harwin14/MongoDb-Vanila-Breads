@@ -69,7 +69,8 @@
 
                       <label for="date" class="col-sm-2 col-form-check-label ">Date</label>
                       <div class="col-sm-4">
-                        <input type="date" id="date" class="form-control" name="date" placeholder="Date" value='date' required>
+                        <input type="date" id="date" class="form-control" name="date" placeholder="Date" value='date'
+                          required>
                       </div>
                     </div>
 
@@ -78,9 +79,9 @@
                       <label for="boolean" class="col-sm-2 col-form-check-label ">boolean</label>
                       <div class="col-sm-10">
                         <select id="boolean" name="boolean" class="form-select" required>
-                          <option value="${item.boolean}" disabled selected  >Choose boolean...</option>
-                          <option value=True ${item.boolean == 'True' ? ' selected' : ''}>True</option>
-                          <option value=False ${user.boolean == 'False' ? ' selected' : ''}>False</option>
+                          <option value="" disabled selected>Choose boolean...</option>
+                          <option value=True>True</option>
+                          <option value=False>False</option>
                         </select>
                       </div>
                     </div>
@@ -92,6 +93,9 @@
                 <div class="card-footer ">
                   <button type="submit" class="btn btn-primary fa-solid fa-file-arrow-down" title="SAVE DATA">
                     Save</button>
+                  <button class="btn btn-warning" type="submit" onclick="readData()"><i
+                      class="fa-sharp fa-solid fa-rotate-left" title="Reset"> Reset </i></button>
+
                 </div>
                 <br>
                 </form>
@@ -149,7 +153,7 @@
 
                     <label for="searchBoolean" class="col-sm-2 col-form-check-label ">boolean</label>
                     <div class="col-sm-10">
-                      <select id="searchBoolean" name="searchBoolean" class="form-select" required>
+                      <select id="searchBoolean" name="searchBoolean" class="form-select">
                         <option value="" selected> Choose Boolean ... </option>
                         <option value=True>True</option>
                         <option value=False>False</option>
@@ -160,7 +164,7 @@
                   <div class="d-grid gap-2 d-md-block card-footer">
                     <button class="btn btn-primary " type="submit"><i class="fa-solid fa-magnifying-glass"
                         title="Search"> Search</i></button>
-                    <button class="btn btn-warning" type="submit" onclick="readData()"><i
+                    <button class="btn btn-warning" onclick="resetData()"><i
                         class="fa-sharp fa-solid fa-rotate-left" title="Reset"> Reset </i></button>
                   </div>
 
@@ -194,7 +198,7 @@
             <div class="col-md-10">
               <nav aria-label="Page navigation example" id="pagination">
               </nav>
-              
+
             </div>
           </div>
         </div>
@@ -206,7 +210,7 @@
         display: 5,
         page: 1
       }
-      let link = new URLSearchParams(params).toString()
+      //let link = new URLSearchParams(params).toString()
       const readData = () => {
         fetch(`http://localhost:3000/users?`).then((response) => {
           if (!response.ok) {
@@ -225,7 +229,7 @@
             return response.json()
           }).then((response) => {
             params = { ...params, totalPages: response.totalPages }
-            console.log('dalam', params)
+            // console.log('dalam', params)
             let html = ''
             let offset = (parseInt(params.page) - 1) * params.display
             response.data.forEach((item, index) => {
@@ -255,7 +259,8 @@
           });
         })
       }
-      console.log(params)
+
+
 
       const saveData = (e) => {
         e.preventDefault()
@@ -310,16 +315,18 @@
         })
       }
 
-      const editData = (breads) => {
-        
-        idEdit = breads._id
-        document.getElementById('string').value = breads.string
-        document.getElementById('integer').value = breads.integer
-        document.getElementById('float').value = breads.float
-        document.getElementById('date').value = new Date(breads.date)
-        document.getElementById('boolean').value = breads.booolean
+      const editData = (data) => {
+
+        idEdit = data._id
+        document.getElementById('string').value = data.string
+        document.getElementById('integer').value = data.integer
+        document.getElementById('float').value = data.float
+        document.getElementById('date').value = moment(data.date).format("YYYY-MM-DD")
+        document.getElementById('boolean').value = data.boolean
+
 
       }
+
 
       const pagination = () => {
         let pagination = `<ul class="pagination">
@@ -349,6 +356,12 @@
         return false
       }
 
+      function resetData() {
+        document.getElementById('form-search').reset()
+        readData()
+      }
+
+
       document.getElementById('form-search').addEventListener('submit', (event) => {
         event.preventDefault()
         const page = 1
@@ -368,8 +381,8 @@
 
         // Sort each row
         const sortedRows = rows.sort((a, b) => {
-        const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
-        const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+          const aColText = a.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
+          const bColText = b.querySelector(`td:nth-child(${column + 1})`).textContent.trim();
 
           return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
         });
@@ -397,6 +410,7 @@
           sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
         });
       });
+
       readData()
     </script>
 </body>
